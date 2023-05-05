@@ -35,7 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
     var _mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
       key: _sideMenuKey,
-      //backgroundColor: Colors.grey.shade100,
+      backgroundColor:  Provider.of<DarkThemeProvider>(context).darkTheme == false
+          ? Colors.grey.shade200
+          : Colors.black,
       drawerEnableOpenDragGesture: false,
       drawer: Drawer(
         child: ListView(
@@ -127,7 +129,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             Container(
-              height: _mediaQuery.height * 0.25,
+              height: _mediaQuery.height * 0.37,
+
               child: Stack(
                 children: [
                   Video_Player(),
@@ -167,75 +170,75 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  height: _mediaQuery.height * 0.06,
-                  width: _mediaQuery.width * 0.14,
-                  decoration: BoxDecoration(
-                      color:
-                          Provider.of<DarkThemeProvider>(context).darkTheme ==
-                                  false
-                              ? Colors.white
-                              : Colors.grey.shade900,
-                      borderRadius: BorderRadius.circular(14)),
-                  child: Center(
-                    child: Icon(Icons.arrow_back_ios_new),
-                  ),
-                ),
-                Container(
-                  height: _mediaQuery.height * 0.06,
-                  width: _mediaQuery.width * 0.43,
-                  decoration: BoxDecoration(
-                      color:
-                          Provider.of<DarkThemeProvider>(context).darkTheme ==
-                                  false
-                              ? Colors.white
-                              : Colors.grey.shade900,
-                      borderRadius: BorderRadius.circular(14)),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: Icon(
-                            Icons.arrow_drop_down_sharp,
-                            size: 36,
-                            color: Colors.lightGreen,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 12.0),
-                          child: Text(
-                            "Download",
-                            style: TextStyle(fontSize: 19),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  height: _mediaQuery.height * 0.06,
-                  width: _mediaQuery.width * 0.14,
-                  decoration: BoxDecoration(
-                      color:
-                          Provider.of<DarkThemeProvider>(context).darkTheme ==
-                                  false
-                              ? Colors.white
-                              : Colors.grey.shade900,
-                      borderRadius: BorderRadius.circular(14)),
-                  child: Center(
-                    child: Icon(Icons.arrow_forward_ios),
-                  ),
-                )
-              ],
-            )
+            // SizedBox(
+            //   height: 30,
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //   children: [
+            //     Container(
+            //       height: _mediaQuery.height * 0.06,
+            //       width: _mediaQuery.width * 0.14,
+            //       decoration: BoxDecoration(
+            //           color:
+            //               Provider.of<DarkThemeProvider>(context).darkTheme ==
+            //                       false
+            //                   ? Colors.white
+            //                   : Colors.grey.shade900,
+            //           borderRadius: BorderRadius.circular(14)),
+            //       child: Center(
+            //         child: Icon(Icons.arrow_back_ios_new),
+            //       ),
+            //     ),
+            //     Container(
+            //       height: _mediaQuery.height * 0.06,
+            //       width: _mediaQuery.width * 0.43,
+            //       decoration: BoxDecoration(
+            //           color:
+            //               Provider.of<DarkThemeProvider>(context).darkTheme ==
+            //                       false
+            //                   ? Colors.white
+            //                   : Colors.grey.shade900,
+            //           borderRadius: BorderRadius.circular(14)),
+            //       child: Center(
+            //         child: Row(
+            //           mainAxisAlignment: MainAxisAlignment.center,
+            //           children: [
+            //             Padding(
+            //               padding: const EdgeInsets.only(right: 8.0),
+            //               child: Icon(
+            //                 Icons.arrow_drop_down_sharp,
+            //                 size: 36,
+            //                 color: Colors.lightGreen,
+            //               ),
+            //             ),
+            //             Padding(
+            //               padding: const EdgeInsets.only(right: 12.0),
+            //               child: Text(
+            //                 "Download",
+            //                 style: TextStyle(fontSize: 19),
+            //               ),
+            //             )
+            //           ],
+            //         ),
+            //       ),
+            //     ),
+            //     Container(
+            //       height: _mediaQuery.height * 0.06,
+            //       width: _mediaQuery.width * 0.14,
+            //       decoration: BoxDecoration(
+            //           color:
+            //               Provider.of<DarkThemeProvider>(context).darkTheme ==
+            //                       false
+            //                   ? Colors.white
+            //                   : Colors.grey.shade900,
+            //           borderRadius: BorderRadius.circular(14)),
+            //       child: Center(
+            //         child: Icon(Icons.arrow_forward_ios),
+            //       ),
+            //     )
+            //   ],
+            // )
           ],
         ),
       ),

@@ -39,7 +39,10 @@ dependencies:
   chewie: ^1.4.0
   provider: ^6.0.5
   shared_preferences: ^2.1.0
+  path_provider: ^2.0.14
+  fluttertoast: ^8.2.1
   animated_theme_switcher: ^2.0.8
+  http: ^0.13.6
 
 
 
