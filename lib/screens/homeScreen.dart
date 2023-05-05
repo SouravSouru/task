@@ -3,6 +3,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:video_player_lilac/screens/profileScreen.dart';
 import 'package:video_player_lilac/screens/video_player.dart';
 
 import '../controllers/darkThemeProviderController.dart';
@@ -64,18 +65,27 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icons.account_circle_sharp,
                   color: Colors.black,
                 ),
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfileScreen(),));
+                },
               ),
             ),
             Card(
               child: ExpansionTile(
                 tilePadding: EdgeInsets.zero,
-                textColor: Colors.black,
-                iconColor: Colors.black,
+                textColor:Provider.of<DarkThemeProvider>(context).darkTheme ==
+                                  false
+                              ? Colors.black
+                              : Colors.white,
+                iconColor:Provider.of<DarkThemeProvider>(context).darkTheme ==
+                                  false
+                              ? Colors.black
+                              : Colors.white,
                 title: ListTile(
                   title: Text("Settings"),
                   leading: Icon(
                     Icons.settings,
-                    color: Colors.black,
+                   color: Colors.black,
                   ),
                 ),
                 children: [
