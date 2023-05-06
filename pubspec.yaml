@@ -42,6 +42,7 @@ dependencies:
   path_provider: ^2.0.14
   fluttertoast: ^8.2.1
   sms_autofill: ^2.3.0
+  lottie: ^2.3.2
   animated_theme_switcher: ^2.0.8
   http: ^0.13.6
 
