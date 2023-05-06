@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
             theme: Styles.themeData(value.darkTheme, context),
             builder: FToastBuilder(),
 
-            home: HomeScreen(),
+            home: LoginScreen(),
           );
         },
       ),

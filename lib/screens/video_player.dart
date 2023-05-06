@@ -10,6 +10,8 @@ import 'package:video_player/video_player.dart';
 import '../controllers/darkThemeProviderController.dart';
 import 'package:http/http.dart' as http;
 
+import '../controllers/shredpref.dart';
+
 class Video_Player extends StatefulWidget {
   const Video_Player({Key? key}) : super(key: key);
 
@@ -18,6 +20,31 @@ class Video_Player extends StatefulWidget {
 }
 
 class _Video_PlayerState extends State<Video_Player> {
+
+
+List<String> downloadedVideoPath =[];
+
+
+getDownloadedVideoPath()async{
+
+  List<String>? lists= await DarkThemePreference().getDownloadedVideoPath();
+  print("wwwwwwwwwwwwwwwwwww----$lists");
+  if(lists!.isNotEmpty){
+    
+
+    setState(() {
+      downloadedVideoPath=lists;
+    });
+  }
+
+
+  print("video path-------------- $downloadedVideoPath");
+}
+
+
+
+
+
   int _index =0;
   List _videoList=[
     "https://drive.google.com/uc?export=download&id=1iTBQwnXSQpqkLD4-f-IiAYapxYHGFazT",
@@ -26,7 +53,7 @@ class _Video_PlayerState extends State<Video_Player> {
   _loadNextVideo([File? video = null, bool network= true, bool nextvideo = false]) {
     setState(() {
 
-      if(_index < _videoList.length-1 && -1 <_index){
+      if( nextvideo == true ? _index < _videoList.length-1 :0 <_index){
         print("next  $nextvideo");
         nextvideo == false ? _index-- : _index++;
         _videoPlayerController =network == false ? VideoPlayerController.file(video!): VideoPlayerController.network(_videoList[_index]);
@@ -72,8 +99,36 @@ class _Video_PlayerState extends State<Video_Player> {
 
   videoDownload() async {
     try {
-      final response = await http.get(Uri.parse(
-          "https://drive.google.com/uc?export=download&id=1iTBQwnXSQpqkLD4-f-IiAYapxYHGFazT"));
+///data/user/0/com.example.video_player_lilac/app_flutter/1iTBQwnXSQpqkLD4-f-IiAYapxYHGFazTvideo.mp4
+/////https://drive.google.com/uc?export=download&id=1iTBQwnXSQpqkLD4-f-IiAYapxYHGFazT
+///
+print("1111111111111111111111  $downloadedVideoPath");
+
+      if(downloadedVideoPath.isNotEmpty){
+        print("-------------------------");
+
+        downloadedVideoPath.forEach((element) async{ 
+
+          String videoId = element.split("app_flutter").last.split("video.mp4").first;
+          String onlinrVideoId = _videoList[_index].toString().split("id=1").last.toString();
+
+ print("------------------------- $videoId \n $onlinrVideoId");
+
+
+
+          if(videoId == onlinrVideoId){
+              print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
+
+             Fluttertoast.showToast(
+            msg: "video already downloaded",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.white,
+            textColor: Colors.black,
+            fontSize: 16.0);
+          }else{
+            final response = await http.get(Uri.parse(_videoList[_index]));
       if (response.statusCode == 200) {
         Fluttertoast.showToast(
             msg: "video downloading...!!!",
@@ -83,9 +138,13 @@ class _Video_PlayerState extends State<Video_Player> {
             backgroundColor: Colors.white,
             textColor: Colors.black,
             fontSize: 16.0);
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("video downloading...!!!")));
         final directory = await getApplicationDocumentsDirectory();
-        final path = directory.path + '/video.mp4';
+
+        final videoName  = _videoList[_index].toString().split("id=").last;
+        print(" video name${videoName}");
+
+
+        final path = directory.path + '/${videoName}video.mp4';
 
         print("path  $path");
 
@@ -94,6 +153,17 @@ class _Video_PlayerState extends State<Video_Player> {
 
         ///--------------------- loading downloaded video
         _loadNextVideo(video, false);
+
+
+        ///----------------- video path add to sharedpref
+        
+        downloadedVideoPath.add(video.path);
+            setState(() {
+              
+            });
+
+           DarkThemePreference().setDownloadedVideoPath(downloadedVideoPath);
+           getDownloadedVideoPath();
 
         ///--------------------------- showing toast
         Fluttertoast.showToast(
@@ -104,9 +174,79 @@ class _Video_PlayerState extends State<Video_Player> {
             backgroundColor: Colors.white,
             textColor: Colors.black,
             fontSize: 16.0);
+
+
+
+            
         //
         // print("last ${video.path}");
       }
+          }
+        });
+      }else{
+
+
+        print("else------------else-----------------");
+
+        final response = await http.get(Uri.parse(_videoList[_index]));
+      if (response.statusCode == 200) {
+        Fluttertoast.showToast(
+            msg: "video downloading...!!!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.white,
+            textColor: Colors.black,
+            fontSize: 16.0);
+        final directory = await getApplicationDocumentsDirectory();
+
+        final videoName  = _videoList[_index].toString().split("id=").last;
+        print(" video name${videoName}");
+
+
+        final path = directory.path + '/${videoName}video.mp4';
+
+        print("path  $path");
+
+        final file = File(path);
+        File video = await file.writeAsBytes(response.bodyBytes);
+
+        ///--------------------- loading downloaded video
+        _loadNextVideo(video, false);
+
+
+        ///----------------- video path add to sharedpref
+        
+        downloadedVideoPath.add(video.path);
+            setState(() {
+              
+            });
+
+           DarkThemePreference().setDownloadedVideoPath(downloadedVideoPath);
+           getDownloadedVideoPath();
+
+        ///--------------------------- showing toast
+        Fluttertoast.showToast(
+            msg: "video downloaded...!!!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.white,
+            textColor: Colors.black,
+            fontSize: 16.0);
+
+
+
+            
+        //
+        // print("last ${video.path}");
+      }
+      }
+
+      
+
+      
+      
     } catch (e) {
       Fluttertoast.showToast(
           msg: "Somthing went wrong, please try again",
@@ -135,6 +275,7 @@ class _Video_PlayerState extends State<Video_Player> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getDownloadedVideoPath();
     _videoPlayerController = VideoPlayerController.network(
         _videoList[_index]);
     _chewieController = ChewieController(
