@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "235739063771",
+    "project_id": "video-player-lilac",
+    "storage_bucket": "video-player-lilac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235739063771:android:f4dac5eaad659bf366b3fe",
+        "android_client_info": {
+          "package_name": "com.example.video_player_lilac"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235739063771-um063cbku9ra1f3872uqa5dn3o3ot75k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.video_player_lilac",
+            "certificate_hash": "63f8bc73fe52c0b375081426625ed79e98984c49"
+          }
+        },
+        {
+          "client_id": "235739063771-36mssunqvbp0lsiq2k15e9le16l78cd4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBt8C0ApdJAWCapWhVHb8e4j8NBDfyoSNk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235739063771-36mssunqvbp0lsiq2k15e9le16l78cd4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

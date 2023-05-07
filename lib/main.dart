@@ -1,41 +1,58 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player_lilac/screens/homeScreen.dart';
 import 'package:video_player_lilac/screens/loginScreen.dart';
+import 'package:video_player_lilac/screens/splashScreen.dart';
+import 'package:video_player_lilac/utilites/darkThemePreference.dart';
 
 import 'controllers/darkThemeProviderController.dart';
-import 'controllers/themedata.dart';
+import 'utilites/themedata.dart';
 
-
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  bool currentTheme = await DarkThemePreference().getTheme() ?? false;
+  await Firebase.initializeApp();
+  runApp(MyApp(
+    currentTheme: currentTheme,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  bool currentTheme;
+  MyApp({required this.currentTheme, super.key});
   @override
   Widget build(BuildContext context) {
-    // final isPlatformDark =
-    //     WidgetsBinding.instance.window.platformBrightness == Brightness.dark;
-    // final initTheme = isPlatformDark ? darkTheme : lightTheme;
     return ChangeNotifierProvider(
       child: Consumer<DarkThemeProvider>(
-        builder: ( context, value, child) {
+        builder: (context, value, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: Styles.themeData(value.darkTheme, context),
             builder: FToastBuilder(),
-
-            home: LoginScreen(),
+            home: StreamBuilder(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return SplasScreen(
+                      fromLogin: false,
+                    );
+                  } else {
+                    return SplasScreen(
+                      fromLogin: true,
+                    );
+                  }
+                }),
           );
         },
       ),
-    create: (BuildContext context) {
+      create: (BuildContext context) {
         return DarkThemeProvider();
-    },
+      },
     );
   }
 }
